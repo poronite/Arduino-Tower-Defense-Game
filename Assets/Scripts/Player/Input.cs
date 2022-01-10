@@ -5,7 +5,7 @@ using System.IO.Ports;
 
 public class Input : MonoBehaviour
 {
-    SerialPort arduinoPort = new SerialPort("COM6", 9600);
+    SerialPort arduinoPort = new SerialPort("COM3", 9600);
 
     [SerializeField]
     private RotateCannon rotateManager;
@@ -30,9 +30,10 @@ public class Input : MonoBehaviour
 
     private void ReadInputValues() 
     {
+        Debug.Log(arduinoPort.ReadLine());
         int isFiring = int.Parse(arduinoPort.ReadLine().Split(character)[0]);
 
-        int rotation = -int.Parse(arduinoPort.ReadLine().Split(character)[1]);
+        int rotation = int.Parse(arduinoPort.ReadLine().Split(character)[1]);
 
 
         fireManager.Fire(isFiring);

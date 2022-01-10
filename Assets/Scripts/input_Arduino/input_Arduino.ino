@@ -1,5 +1,10 @@
+int buttonInput = 0;
+int inputRotation = 0;
+int constrainedRotation = 0;
+
 void setup() {
   Serial.begin(9600);
+  pinMode(3, INPUT_PULLUP);
 }
 
 void loop() {
@@ -7,8 +12,9 @@ void loop() {
 }
 
 void readInput() {
-  Serial.println(analogRead(A0));
-  Serial.print(" ");
-  Serial.print(-map(analogRead(A1), 0, 1024, -90, 90));
+  buttonInput = digitalRead(3);
+  inputRotation = map(analogRead(A1), 0, 1024, -90, 90);
+  constrainedRotation = constrain(inputRotation, -90, 90);
+  Serial.println((String)buttonInput +" "+ constrainedRotation);
   delay(20);
 }

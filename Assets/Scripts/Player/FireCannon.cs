@@ -8,7 +8,7 @@ public class FireCannon : MonoBehaviour
     {
         switch (isFiring)
         {
-            case 1:
+            case 0:
                 if (IsBulletReady())
                     Debug.Log("Fire!");
                 break;

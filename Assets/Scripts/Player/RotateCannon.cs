@@ -6,6 +6,6 @@ public class RotateCannon : MonoBehaviour
 {
     public void Rotate(int angle)
     {
-        transform.eulerAngles = new Vector3(transform.eulerAngles.x, angle, transform.eulerAngles.z);
+        transform.localRotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, angle);
     }
 }
