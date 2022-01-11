@@ -4,20 +4,36 @@ using UnityEngine;
 
 public class FireCannon : MonoBehaviour
 {
-    public Player player;
+    private Player player;
+
+    [SerializeField]
+    private Transform Pivot;
+    [SerializeField]
+    private Transform CannonMouth;
+
+    private GameObject bullet;
+    public Vector3 direction;
 
     private void Start()
     {
+        bullet = Resources.Load<GameObject>("Bullet");
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
+
+
     public void Fire(int isFiring)
     {
         switch (isFiring)
         {
             case 0:
                 if (IsBulletReady())
-                    player.Fire();
+                {
+                    player.CanShoot = false;
+                    direction = Pivot.up;
+                    GameObject bulletClone = Instantiate(bullet, CannonMouth.position, Quaternion.identity);
+                    bulletClone.GetComponent<Bullet>().ShootBullet(player.CannonBallVelocity, player.CannonBallDamage, direction);
                     Debug.Log("Fire!");
+                }
                 break;
             default:
                 break;
@@ -27,6 +43,6 @@ public class FireCannon : MonoBehaviour
 
     private bool IsBulletReady()
     {
-        return true;
+        return player.CanShoot;
     }
 }

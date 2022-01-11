@@ -16,5 +16,4 @@ void readInput() {
   inputRotation = map(analogRead(A1), 0, 1024, -90, 90);
   constrainedRotation = constrain(inputRotation, -90, 90);
   Serial.println((String)buttonInput +" "+ constrainedRotation);
-  delay(20);
 }

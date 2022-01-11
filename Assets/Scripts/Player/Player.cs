@@ -4,21 +4,22 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private Transform pivot;
-    private GameObject bullet;
-    public Vector2 direction;
-    public int speed;
-    public int damage;
-    public int health;
+    public int CannonBallVelocity;
+    public bool CanShoot;
+    public float ReloadDuration;
+    private float reloadTime;
+    public float CannonBallDamage;
+    public float CannonHealth;
 
-    private void Start()
-    {
-        bullet = Resources.Load<GameObject>("Bullet");
-    }
 
-    public void Fire()
+    private void Update()
     {
-        direction = pivot.forward;
-        Instantiate(bullet, pivot);
+        reloadTime += Time.deltaTime;
+
+        if (reloadTime >= ReloadDuration && !CanShoot)
+        {
+            CanShoot = true;
+            reloadTime = 0f;
+        }
     }
 }

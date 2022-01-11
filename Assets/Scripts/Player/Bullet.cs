@@ -4,32 +4,26 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField]
-    private Player player;
-    [SerializeField]
-    private int playerSpeed;
-    [SerializeField]
-    private int playerDamage;
+    private Rigidbody2D rb;
 
-    private void Start()
+    private int bulletSpeed;
+    private float bulletDamage;
+
+
+    public void ShootBullet(int speed, float damage, Vector3 direction)
     {
-        playerSpeed = player.speed;
-        playerDamage = player.damage;
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        // speed = player.script.speedstat
-        // force = player.script.forcestat
+        rb = gameObject.GetComponent<Rigidbody2D>();
+        bulletSpeed = speed;
+        bulletDamage = damage;
+        rb.AddForce(direction * bulletSpeed, ForceMode2D.Impulse);
     }
 
-    private void Update()
-    {
-        transform.position = (player.direction * Time.deltaTime * playerSpeed);
-    }
 
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.CompareTag("Enemy"))
-    //    {
-    //        //Do damage
-    //    }
-    //}
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            //Do damage
+        }
+    }
 }
