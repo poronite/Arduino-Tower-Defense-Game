@@ -98,7 +98,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Stats: {fileID: 756356126216969918}
-  target: {fileID: 3123355816805580293}
+  Target: {fileID: 3123355816805580293}
+  Player: {fileID: 0}
 --- !u!114 &756356126216969918
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,9 +6,10 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public int Wave = 1;
     public int WaveAmount = 10;
-    public float SpawnSpeed = 3f;
     public int LeftToSpawn;
     public int EnemiesAlive;
+    public float SpawnSpeed = 3f;
+    public float PlayerScore = 0;
     public bool IsWaveOver;
     public GameObject EnemyPrefab;
     public Transform SpawnPosition;
@@ -65,10 +66,18 @@ public class GameManager : MonoBehaviour
         WaveAmount += 10;
         LeftToSpawn = WaveAmount;
         if(SpawnSpeed > .5f)
-        SpawnSpeed -= .25f;
-        yield return new WaitForSeconds(30f);
+        SpawnSpeed -= .1f;
+        yield return new WaitForSeconds(5f);
         IsWaveOver = false;
         LeftToSpawn = WaveAmount;
         StartCoroutine(SpawnEnemy());
+    }
+
+    public void GameOver()
+    {
+        IsWaveOver = true;
+        StopAllCoroutines();
+        Debug.Log("Game has ended.");
+        Time.timeScale = 0;
     }
 }

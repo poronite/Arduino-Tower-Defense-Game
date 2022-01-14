@@ -152,9 +152,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Wave: 1
   WaveAmount: 10
-  SpawnSpeed: 3
   LeftToSpawn: 5
   EnemiesAlive: 0
+  SpawnSpeed: 3
+  PlayerScore: 0
   IsWaveOver: 0
   EnemyPrefab: {fileID: 3123355816805580293, guid: d3b2bea99d796f5499690ef041bbf40e,
     type: 3}
@@ -230,7 +231,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &192439706
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1248,8 +1249,10 @@ MonoBehaviour:
   CannonBallVelocity: 25
   CanShoot: 1
   ReloadDuration: 3
-  CannonBallDamage: 1
-  CannonHealth: 1
+  CannonBallDamage: 3
+  CannonHealth: 30
+  PenetrationAmount: 0
+  OrbitAmount: 0
 --- !u!61 &1299052430
 BoxCollider2D:
   m_ObjectHideFlags: 0

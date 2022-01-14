@@ -5,22 +5,24 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public EnemyStats Stats;
-    public GameObject target;
+    public GameObject Target;
+    public GameObject Player;
 
     void Start()
     {
-        target = GameObject.FindGameObjectWithTag("StartPoint");
+        Target = GameObject.FindGameObjectWithTag("StartPoint");
+        Player = GameObject.FindGameObjectWithTag("Player");
         Stats = GetComponent<EnemyStats>();
     }
 
     void Update()
     {
-        if(target != null)
+        if(Target != null)
         {
             MoveToTarget();
-            if (Vector3.Distance(transform.position, target.transform.position) <= .0001)
+            if (Vector3.Distance(transform.position, Target.transform.position) <= .0001)
             {
-                target = target.GetComponent<Path>().NextTarget;
+                Target = Target.GetComponent<Path>().NextTarget;
             }
         }
         else
@@ -29,25 +31,31 @@ public class Enemy : MonoBehaviour
 
     public void Attack()
     {
-        Debug.Log("player took " + Stats.EnemyDamage + " damage.");
+        Debug.Log("Player took " + Stats.EnemyDamage + " damage.");
+        Player.GetComponent<Player>().CannonHealth -= Stats.EnemyDamage;
+        if(Player.GetComponent<Player>().CannonHealth < 0)
+        {
+            GameManager.instance.GameOver();
+        }
         GameManager.instance.EnemiesAlive--;
         Destroy(this.gameObject);
     }
 
     void MoveToTarget()
     {
-        transform.position = Vector2.MoveTowards(transform.position, target.transform.position, Stats.EnemySpeed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, Target.transform.position, Stats.EnemySpeed * Time.deltaTime);
     }
 
     public void TakeDamage(float damageTaken)
     {
         Stats.EnemyHealth -= damageTaken;
-        if(Stats.EnemyHealth < 0)
+        if(Stats.EnemyHealth <= 0)
         Die();
     }
 
     public void Die()
     {
+        GameManager.instance.PlayerScore += Stats.EnemyValue;
         GameManager.instance.EnemiesAlive--;
         Destroy(this.gameObject);
     }
