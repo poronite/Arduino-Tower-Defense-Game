@@ -17,16 +17,16 @@ public class Input : MonoBehaviour
 
     private void Update()
     {
-        if (!arduinoPort.IsOpen)
-        {
-            arduinoPort.Open();
-        }
+            if (!arduinoPort.IsOpen)
+            {
+                arduinoPort.Open();
+            }
 
-        ReadInputValues();
+            ReadInputValues();
     }
 
 
-    private void ReadInputValues() 
+    private void ReadInputValues()
     {
         Debug.Log(arduinoPort.ReadLine());
         int isFiring = int.Parse(arduinoPort.ReadLine().Split(character)[0]);

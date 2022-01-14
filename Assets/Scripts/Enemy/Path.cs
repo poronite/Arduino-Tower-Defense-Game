@@ -12,14 +12,14 @@ public class Path : MonoBehaviour
         Gizmos.DrawLine(transform.position, NextTarget.transform.position);
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.gameObject.CompareTag("Enemy"))
-        if(NextTarget == null)
-        {
-            collision.gameObject.GetComponent<Enemy>().Attack();
-        }
-        else
-        collision.gameObject.GetComponent<Enemy>().target = NextTarget.transform.position;
-    }
+    //void OnTriggerStay2D(Collider2D collision)
+    //{
+    //    if(collision.gameObject.CompareTag("Enemy") || Vector2.Distance(transform.position, collision.transform.position) == 0)
+    //    if(NextTarget == null)
+    //    {
+    //        collision.gameObject.GetComponent<Enemy>().Attack();
+    //    }
+    //    else
+    //    collision.gameObject.GetComponent<Enemy>().target = NextTarget.transform.position;
+    //}
 }

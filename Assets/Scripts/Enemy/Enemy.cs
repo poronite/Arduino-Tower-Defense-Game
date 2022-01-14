@@ -4,42 +4,51 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public float EnemyHealth;
-    public float EnemySpeed;
-    public float EnemyDamage;
-    public float EnemyValue;
-    public Vector2 target;
+    public EnemyStats Stats;
+    public GameObject target;
 
     void Start()
     {
-        target = GameObject.Find("1").transform.position;
+        target = GameObject.FindGameObjectWithTag("StartPoint");
+        Stats = GetComponent<EnemyStats>();
     }
 
     void Update()
     {
-        MoveToTarget();
+        if(target != null)
+        {
+            MoveToTarget();
+            if (Vector3.Distance(transform.position, target.transform.position) <= .0001)
+            {
+                target = target.GetComponent<Path>().NextTarget;
+            }
+        }
+        else
+        Attack();
     }
 
     public void Attack()
     {
-        Debug.Log("player took damage");
+        Debug.Log("player took " + Stats.EnemyDamage + " damage.");
+        GameManager.instance.EnemiesAlive--;
         Destroy(this.gameObject);
     }
 
     void MoveToTarget()
     {
-        transform.position = Vector2.MoveTowards(transform.position, target, EnemySpeed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, target.transform.position, Stats.EnemySpeed * Time.deltaTime);
     }
 
     public void TakeDamage(float damageTaken)
     {
-        EnemyHealth -= damageTaken;
-        if(EnemyHealth < 0)
+        Stats.EnemyHealth -= damageTaken;
+        if(Stats.EnemyHealth < 0)
         Die();
     }
 
     public void Die()
     {
+        GameManager.instance.EnemiesAlive--;
         Destroy(this.gameObject);
     }
 }

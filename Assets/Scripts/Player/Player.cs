@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     private float reloadTime;
     public float CannonBallDamage;
     public float CannonHealth;
+    public int PenetrationAmount;
+    public int OrbitAmount;
 
 
     private void Update()
