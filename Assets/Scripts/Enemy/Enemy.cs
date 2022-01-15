@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
     public EnemyStats Stats;
     public GameObject Target;
     public GameObject Player;
+    public GameObject DeathParticleSystem;
 
     void Start()
     {
@@ -57,6 +58,7 @@ public class Enemy : MonoBehaviour
     {
         GameManager.instance.PlayerScore += Stats.EnemyValue;
         GameManager.instance.EnemiesAlive--;
+        Instantiate(DeathParticleSystem, transform.position, Quaternion.identity);
         Destroy(this.gameObject);
     }
 }

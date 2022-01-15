@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator SpawnEnemy()
     {
-        while (LeftToSpawn > 0)
+        while (LeftToSpawn > 0 || EnemiesAlive > 0)
         {
             GameObject enemy = Instantiate(EnemyPrefab, SpawnPosition.position, Quaternion.identity);
             EnemyStats stats = enemy.GetComponent<EnemyStats>();
