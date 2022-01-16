@@ -9,7 +9,6 @@ public class Player : MonoBehaviour
     public float CannonBallDamage;
     public float CannonHealth;
     public int PenetrationAmount;
-    public int OrbitAmount;
 
 
     private void Update()

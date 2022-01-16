@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - StartPoint
+  - Upgrade
   layers:
   - Default
   - TransparentFX

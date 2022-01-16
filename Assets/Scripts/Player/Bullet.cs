@@ -22,12 +22,17 @@ public class Bullet : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
             collision.gameObject.GetComponent<Enemy>().TakeDamage(bulletDamage);
-            Destroy(this.gameObject);
+            Destroy(gameObject);
+        }
+        else if(collision.gameObject.CompareTag("Upgrade"))
+        {
+            Debug.Log("upgrade");
+            collision.GetComponent<UpgradeBehaviour>().Upgrade();
         }
     }
 
     void OnBecameInvisible()
     {
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 }

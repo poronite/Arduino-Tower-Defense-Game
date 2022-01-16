@@ -39,7 +39,7 @@ public class Enemy : MonoBehaviour
             GameManager.instance.GameOver();
         }
         GameManager.instance.EnemiesAlive--;
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 
     void MoveToTarget()
@@ -59,6 +59,6 @@ public class Enemy : MonoBehaviour
         GameManager.instance.PlayerScore += Stats.EnemyValue;
         GameManager.instance.EnemiesAlive--;
         Instantiate(DeathParticleSystem, transform.position, Quaternion.identity);
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 }

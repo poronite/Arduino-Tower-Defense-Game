@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     {
         if (instance != null && instance != this)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         } else
             instance = this;
     }
@@ -79,5 +79,11 @@ public class GameManager : MonoBehaviour
         StopAllCoroutines();
         Debug.Log("Game has ended.");
         Time.timeScale = 0;
+    }
+
+
+    void SpawnUpgrades()
+    {
+        
     }
 }
