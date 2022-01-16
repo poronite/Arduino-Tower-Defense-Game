@@ -6,28 +6,35 @@ public class Bullet : MonoBehaviour
 
     private int bulletSpeed;
     private float bulletDamage;
+    private int bulletPenetration;
 
 
-    public void ShootBullet(int speed, float damage, Vector3 direction)
+    public void ShootBullet(int speed, float damage, int penetration, Vector3 direction)
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
         bulletSpeed = speed;
         bulletDamage = damage;
+        bulletPenetration = penetration;
         rb.AddForce(direction * bulletSpeed, ForceMode2D.Impulse);
     }
 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy") && collision.GetComponent<Enemy>().IsDead == false)
         {
+            collision.GetComponent<Enemy>().IsDead = true;
+            bulletPenetration--;
             collision.gameObject.GetComponent<Enemy>().TakeDamage(bulletDamage);
-            Destroy(gameObject);
         }
         else if(collision.gameObject.CompareTag("Upgrade"))
         {
-            Debug.Log("upgrade");
             collision.GetComponent<UpgradeBehaviour>().Upgrade();
+        }
+
+        if(bulletPenetration < 0)
+        {
+            Destroy(gameObject);
         }
     }
 

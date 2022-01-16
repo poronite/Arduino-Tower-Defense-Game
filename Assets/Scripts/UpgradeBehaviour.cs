@@ -12,7 +12,7 @@ public class UpgradeBehaviour : MonoBehaviour
     {
         Sprite = GetComponent<SpriteRenderer>();
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        bulletType = Random.Range(0, 2);
+        bulletType = Random.Range(0, 3);
         switch (bulletType) {
             //Damage Upgrade
             case 0:
@@ -42,8 +42,8 @@ public class UpgradeBehaviour : MonoBehaviour
 
                 //Reload Upgrade
             case 1:
-                if(Player.ReloadDuration >= .1f)
-                    Player.ReloadDuration -= .1f;
+                if(Player.ReloadDuration > .1f)
+                    Player.ReloadDuration -= .2f;
                 else
                     Player.CannonBallDamage++;
                 break;
@@ -53,6 +53,10 @@ public class UpgradeBehaviour : MonoBehaviour
                 Player.PenetrationAmount++;
                 break;
         }
-        Destroy(gameObject);
+        GameObject[] a = GameObject.FindGameObjectsWithTag("Upgrade");
+        foreach (GameObject gobject in a)
+        {
+            Destroy(gobject);
+        }
     }
 }

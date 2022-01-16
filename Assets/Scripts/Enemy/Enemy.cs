@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     public GameObject Target;
     public GameObject Player;
     public GameObject DeathParticleSystem;
+    public bool IsDead;
 
     void Start()
     {
@@ -34,7 +35,7 @@ public class Enemy : MonoBehaviour
     {
         Debug.Log("Player took " + Stats.EnemyDamage + " damage.");
         Player.GetComponent<Player>().CannonHealth -= Stats.EnemyDamage;
-        if(Player.GetComponent<Player>().CannonHealth < 0)
+        if(Player.GetComponent<Player>().CannonHealth <= 0)
         {
             GameManager.instance.GameOver();
         }
@@ -58,6 +59,7 @@ public class Enemy : MonoBehaviour
     {
         GameManager.instance.PlayerScore += Stats.EnemyValue;
         GameManager.instance.EnemiesAlive--;
+        Debug.Log(GameManager.instance.EnemiesAlive);
         Instantiate(DeathParticleSystem, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }

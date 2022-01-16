@@ -29,8 +29,7 @@ public class FireCannon : MonoBehaviour
                     player.CanShoot = false;
                     direction = Pivot.up;
                     GameObject bulletClone = Instantiate(bullet, CannonMouth.position, Quaternion.identity);
-                    bulletClone.GetComponent<Bullet>().ShootBullet(player.CannonBallVelocity, player.CannonBallDamage, direction);
-                    Debug.Log("Fire!");
+                    bulletClone.GetComponent<Bullet>().ShootBullet(player.CannonBallVelocity, player.CannonBallDamage, player.PenetrationAmount, direction);
                 }
                 break;
             default:

@@ -5,14 +5,16 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public int Wave = 1;
-    public int WaveAmount = 10;
+    public int WaveAmount = 5;
     public int LeftToSpawn;
     public int EnemiesAlive;
     public float SpawnSpeed = 3f;
     public float PlayerScore = 0;
     public bool IsWaveOver;
     public GameObject EnemyPrefab;
+    public GameObject UpgradePrefab;
     public Transform SpawnPosition;
+    public GameObject Player;
 
     void Awake()
     {
@@ -25,6 +27,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        Player = GameObject.FindGameObjectWithTag("Player");
         IsWaveOver = false;
         LeftToSpawn = WaveAmount;
         StartCoroutine(SpawnEnemy());
@@ -32,9 +35,11 @@ public class GameManager : MonoBehaviour
 
     IEnumerator SpawnEnemy()
     {
-        while (LeftToSpawn > 0 || EnemiesAlive > 0)
+        while (LeftToSpawn > 0)
         {
             GameObject enemy = Instantiate(EnemyPrefab, SpawnPosition.position, Quaternion.identity);
+            EnemiesAlive++;
+            LeftToSpawn--;
             EnemyStats stats = enemy.GetComponent<EnemyStats>();
 
             for (int i = 0; i < Wave; i++)
@@ -50,11 +55,14 @@ public class GameManager : MonoBehaviour
                         break;
                 }
             stats.EnemyValue = stats.EnemyHealth + stats.EnemyDamage + stats.EnemySpeed;
-
-            EnemiesAlive++;
-            LeftToSpawn--;
             yield return new WaitForSeconds(SpawnSpeed);
         }
+
+        while(EnemiesAlive > 0)
+        {
+            yield return new WaitForSeconds(1);
+        }
+
         IsWaveOver = true;
         StopCoroutine(SpawnEnemy());
         StartCoroutine(NextWave());
@@ -63,13 +71,15 @@ public class GameManager : MonoBehaviour
     IEnumerator NextWave()
     {
         Wave++;
-        WaveAmount += 10;
+        WaveAmount += 3;
         LeftToSpawn = WaveAmount;
-        if(SpawnSpeed > .5f)
-        SpawnSpeed -= .1f;
+        if(SpawnSpeed > .1f)
+        SpawnSpeed -= .2f;
+        SpawnUpgrades();
         yield return new WaitForSeconds(5f);
         IsWaveOver = false;
         LeftToSpawn = WaveAmount;
+        StopCoroutine(NextWave());
         StartCoroutine(SpawnEnemy());
     }
 
@@ -81,9 +91,10 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
     }
 
-
     void SpawnUpgrades()
     {
-        
+        Instantiate(UpgradePrefab, Player.transform.position + new Vector3(0,-2.5f), Quaternion.identity);
+        Instantiate(UpgradePrefab, Player.transform.position + new Vector3(2,-3.5f), Quaternion.identity);
+        Instantiate(UpgradePrefab, Player.transform.position + new Vector3(-2,-3.5f), Quaternion.identity);
     }
 }
