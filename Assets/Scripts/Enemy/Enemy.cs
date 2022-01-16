@@ -57,6 +57,7 @@ public class Enemy : MonoBehaviour
 
     public void Die()
     {
+        IsDead = true;
         GameManager.instance.PlayerScore += Stats.EnemyValue;
         GameManager.instance.EnemiesAlive--;
         Debug.Log(GameManager.instance.EnemiesAlive);

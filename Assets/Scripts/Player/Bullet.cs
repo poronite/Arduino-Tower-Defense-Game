@@ -23,7 +23,6 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy") && collision.GetComponent<Enemy>().IsDead == false)
         {
-            collision.GetComponent<Enemy>().IsDead = true;
             bulletPenetration--;
             collision.gameObject.GetComponent<Enemy>().TakeDamage(bulletDamage);
         }
