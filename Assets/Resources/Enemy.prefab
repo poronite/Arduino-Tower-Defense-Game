@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3123355816805580298}
   - component: {fileID: 756356126216969918}
   - component: {fileID: 3123355816805580297}
+  - component: {fileID: -1945851315126144620}
   - component: {fileID: 3123355816805580302}
   m_Layer: 0
   m_Name: Enemy
@@ -102,6 +103,7 @@ MonoBehaviour:
   Player: {fileID: 0}
   DeathParticleSystem: {fileID: 2531142548859610632, guid: 70a6c718ff7a11446bea795c43831e89,
     type: 3}
+  IsDead: 0
 --- !u!114 &756356126216969918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,6 +136,20 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &-1945851315126144620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3123355816805580293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e12699015483af14d803b29714ea9995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  duration: 0.175
 --- !u!50 &3123355816805580302
 Rigidbody2D:
   serializedVersion: 4

@@ -9,12 +9,14 @@ public class Enemy : MonoBehaviour
     public GameObject Player;
     public GameObject DeathParticleSystem;
     public bool IsDead;
+    private DamageFlash flash;
 
     void Start()
     {
         Target = GameObject.FindGameObjectWithTag("StartPoint");
         Player = GameObject.FindGameObjectWithTag("Player");
         Stats = GetComponent<EnemyStats>();
+        flash = GetComponent<DamageFlash>();
     }
 
     void Update()
@@ -50,6 +52,7 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float damageTaken)
     {
+        flash.Flash();
         Stats.EnemyHealth -= damageTaken;
         if(Stats.EnemyHealth <= 0)
         Die();
