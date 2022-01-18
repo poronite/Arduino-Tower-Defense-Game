@@ -35,8 +35,8 @@ public class Enemy : MonoBehaviour
 
     public void Attack()
     {
-        GameManager.instance.UpdateUIValues();
         Player.CannonHealth -= Stats.EnemyDamage;
+        GameManager.instance.UpdateUIValues();
         if(Player.CannonHealth <= 0)
         {
             GameManager.instance.GameOver();
@@ -62,10 +62,9 @@ public class Enemy : MonoBehaviour
     {
         IsDead = true;
         GameManager.instance.PlayerScore += Stats.EnemyValue;
-        GameManager.instance.UpdateUIValues();
         GameManager.instance.EnemiesAlive--;
-        Debug.Log(GameManager.instance.EnemiesAlive);
         Instantiate(DeathParticleSystem, transform.position, Quaternion.identity);
+        GameManager.instance.UpdateUIValues();
         Destroy(gameObject);
     }
 }
