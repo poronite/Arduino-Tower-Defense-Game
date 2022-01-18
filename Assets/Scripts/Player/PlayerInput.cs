@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.IO.Ports;
+using System.Linq;
 
 public class PlayerInput : MonoBehaviour
 {
-    SerialPort arduinoPort = new SerialPort("COM3", 9600);
+    private string inputMethod;
+
+    SerialPort arduinoPort;
 
     [SerializeField]
     private RotateCannon rotateManager;
@@ -13,32 +16,64 @@ public class PlayerInput : MonoBehaviour
 
     char character = ' ';
 
+    private void Awake()
+    {
+        bool portExists = SerialPort.GetPortNames().Any(name => name == "COM3");
+
+        if (portExists)
+        {
+            arduinoPort = new SerialPort("COM3", 9600);
+            inputMethod = "Arduino";
+        }
+        else
+        {
+            inputMethod = "Keyboard";
+        }
+        
+    }
+
     private void Update()
     {
-        ReadInputValuesKeyboard();
-
-            //if (!arduinoPort.IsOpen)
-            //{
-            //    arduinoPort.Open();
-            //}
-            //ReadInputValues();
+        CurrentInputMethod();
     }
+
+
+    private void CurrentInputMethod()
+    {
+        switch (inputMethod)
+        {
+            case "Arduino":
+                if (!arduinoPort.IsOpen)
+                {
+                    arduinoPort.Open();
+                }
+                ReadInputValuesArduino();
+                break;
+            case "Keyboard":
+                ReadInputValuesKeyboard();
+                break;
+            default:
+                break;
+        }
+    }
+
 
     private void ReadInputValuesKeyboard()
     {
         if(Input.GetKey(KeyCode.W))
-        rotateManager.RotateKeyboard(100 * Time.deltaTime);
+            rotateManager.RotateKeyboard(100 * Time.deltaTime);
 
         if(Input.GetKey(KeyCode.E))
             rotateManager.RotateKeyboard(-100 * Time.deltaTime);
 
         if(Input.GetKey(KeyCode.Q))
-        fireManager.Fire(0);
+            fireManager.Fire(0);
     }
 
-    private void ReadInputValues()
+    private void ReadInputValuesArduino()
     {
-        Debug.Log(arduinoPort.ReadLine());
+        //Debug.Log(arduinoPort.ReadLine());
+
         int isFiring = int.Parse(arduinoPort.ReadLine().Split(character)[0]);
 
         int rotation = int.Parse(arduinoPort.ReadLine().Split(character)[1]);
