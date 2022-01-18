@@ -3,19 +3,25 @@
 public class Bullet : MonoBehaviour
 {
     private Rigidbody2D rb;
+    private Transform direction;
 
     private int bulletSpeed;
     private float bulletDamage;
     private int bulletPenetration;
 
-
-    public void ShootBullet(int speed, float damage, int penetration, Vector3 direction)
+    public void ShootBullet(int speed, float damage, int penetration)
     {
-        rb = gameObject.GetComponent<Rigidbody2D>();
-        bulletSpeed = speed;
-        bulletDamage = damage;
-        bulletPenetration = penetration;
-        rb.AddForce(direction * bulletSpeed, ForceMode2D.Impulse);
+        direction = GameObject.FindGameObjectWithTag("Pivot").GetComponent<Transform>();
+        if(direction != null)
+        {
+            rb = gameObject.GetComponent<Rigidbody2D>();
+            bulletSpeed = speed;
+            bulletDamage = damage;
+            bulletPenetration = penetration;
+            rb.AddForce(direction.up * bulletSpeed, ForceMode2D.Impulse);
+        }
+        else
+        Debug.Log("Failed to find Pivot");
     }
 
 

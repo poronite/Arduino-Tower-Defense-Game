@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour
 {
     public EnemyStats Stats;
     public GameObject Target;
-    public GameObject Player;
+    public Player Player;
     public GameObject DeathParticleSystem;
     public bool IsDead;
     private DamageFlash flash;
@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         Target = GameObject.FindGameObjectWithTag("StartPoint");
-        Player = GameObject.FindGameObjectWithTag("Player");
+        Player = GameObject.FindObjectOfType<Player>();
         Stats = GetComponent<EnemyStats>();
         flash = GetComponent<DamageFlash>();
     }
@@ -35,9 +35,9 @@ public class Enemy : MonoBehaviour
 
     public void Attack()
     {
-        Debug.Log("Player took " + Stats.EnemyDamage + " damage.");
-        Player.GetComponent<Player>().CannonHealth -= Stats.EnemyDamage;
-        if(Player.GetComponent<Player>().CannonHealth <= 0)
+        GameManager.instance.UpdateUIValues();
+        Player.CannonHealth -= Stats.EnemyDamage;
+        if(Player.CannonHealth <= 0)
         {
             GameManager.instance.GameOver();
         }
@@ -62,6 +62,7 @@ public class Enemy : MonoBehaviour
     {
         IsDead = true;
         GameManager.instance.PlayerScore += Stats.EnemyValue;
+        GameManager.instance.UpdateUIValues();
         GameManager.instance.EnemiesAlive--;
         Debug.Log(GameManager.instance.EnemiesAlive);
         Instantiate(DeathParticleSystem, transform.position, Quaternion.identity);

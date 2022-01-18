@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -11,10 +12,13 @@ public class GameManager : MonoBehaviour
     public float SpawnSpeed = 3f;
     public float PlayerScore = 0;
     public bool IsWaveOver;
+
     public GameObject EnemyPrefab;
     public GameObject UpgradePrefab;
     public Transform SpawnPosition;
-    public GameObject Player;
+    public Transform PlayerTransform;
+    public Player player;
+    private TMP_Text scoreText;
 
     void Awake()
     {
@@ -27,10 +31,13 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        Player = GameObject.FindGameObjectWithTag("Player");
+        PlayerTransform = GameObject.FindObjectOfType<Player>().GetComponent<Transform>();
+        player = GameObject.FindObjectOfType<Player>();
+        scoreText = GameObject.FindObjectOfType<TMP_Text>();
         IsWaveOver = false;
         LeftToSpawn = WaveAmount;
         StartCoroutine(SpawnEnemy());
+        UpdateUIValues();
     }
 
     IEnumerator SpawnEnemy()
@@ -76,6 +83,7 @@ public class GameManager : MonoBehaviour
         if(SpawnSpeed > .1f)
         SpawnSpeed -= .2f;
         SpawnUpgrades();
+        UpdateUIValues();
         yield return new WaitForSeconds(5f);
         IsWaveOver = false;
         LeftToSpawn = WaveAmount;
@@ -93,8 +101,13 @@ public class GameManager : MonoBehaviour
 
     void SpawnUpgrades()
     {
-        Instantiate(UpgradePrefab, Player.transform.position + new Vector3(0,-2.5f), Quaternion.identity);
-        Instantiate(UpgradePrefab, Player.transform.position + new Vector3(2,-3.5f), Quaternion.identity);
-        Instantiate(UpgradePrefab, Player.transform.position + new Vector3(-2,-3.5f), Quaternion.identity);
+        Instantiate(UpgradePrefab, PlayerTransform.position + new Vector3(0,-2.5f), Quaternion.identity);
+        Instantiate(UpgradePrefab, PlayerTransform.position + new Vector3(2,-3.5f), Quaternion.identity);
+        Instantiate(UpgradePrefab, PlayerTransform.position + new Vector3(-2,-3.5f), Quaternion.identity);
+    }
+
+    public void UpdateUIValues()
+    {
+        scoreText.text = (" Wave: " + Wave.ToString() + "\n Health: " + player.CannonHealth.ToString() + "\n Score: " + PlayerScore.ToString());
     }
 }

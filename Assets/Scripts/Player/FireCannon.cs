@@ -5,17 +5,13 @@ public class FireCannon : MonoBehaviour
     private Player player;
 
     [SerializeField]
-    private Transform Pivot;
-    [SerializeField]
     private Transform CannonMouth;
-
     private GameObject bullet;
-    public Vector3 direction;
 
     private void Start()
     {
         bullet = Resources.Load<GameObject>("Bullet");
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        player = GameObject.FindObjectOfType<Player>();
     }
 
 
@@ -24,12 +20,14 @@ public class FireCannon : MonoBehaviour
         switch (isFiring)
         {
             case 0:
-                if (IsBulletReady())
+                if(player != null)
                 {
-                    player.CanShoot = false;
-                    direction = Pivot.up;
-                    GameObject bulletClone = Instantiate(bullet, CannonMouth.position, Quaternion.identity);
-                    bulletClone.GetComponent<Bullet>().ShootBullet(player.CannonBallVelocity, player.CannonBallDamage, player.PenetrationAmount, direction);
+                    if(player.CanShoot)
+                    {
+                        GameObject bulletClone = Instantiate(bullet, CannonMouth.position, Quaternion.identity);
+                        bulletClone.GetComponent<Bullet>().ShootBullet(player.CannonBallVelocity, player.CannonBallDamage, player.PenetrationAmount);
+                        player.CanShoot = false;
+                    }
                 }
                 break;
             default:

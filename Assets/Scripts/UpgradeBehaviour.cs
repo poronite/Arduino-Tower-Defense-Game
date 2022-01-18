@@ -11,7 +11,7 @@ public class UpgradeBehaviour : MonoBehaviour
     void Start()
     {
         Sprite = GetComponent<SpriteRenderer>();
-        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        Player = GameObject.FindObjectOfType<Player>();
         bulletType = Random.Range(0, 3);
         switch (bulletType) {
             //Damage Upgrade
